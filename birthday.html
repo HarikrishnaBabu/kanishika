@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Kanishika</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #c0392b;
+    --rose-light: #e8a0a0;
+    --rose-pale: #fff0f0;
+    --rose-faint: #fdf6f6;
+    --ink: #1e1a1a;
+    --muted: #9a8888;
+    --cream: #fdf8f4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--rose);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--rose-light);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.12s ease;
+  }
+
+  /* Particle canvas */
+  #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+  /* Page wrapper */
+  .page { position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--rose);
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+    margin-bottom: 28px;
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(64px, 14vw, 130px);
+    font-weight: 300;
+    line-height: 0.9;
+    color: var(--ink);
+    opacity: 0;
+    animation: fadeUp 1.2s ease 0.6s forwards;
+    position: relative;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--rose);
+    display: block;
+  }
+
+  /* Heartbeat ECG — minimal, elegant */
+  .ecg-wrap {
+    width: 260px;
+    margin: 40px auto;
+    opacity: 0;
+    animation: fadeUp 1s ease 1s forwards;
+  }
+  .ecg-wrap svg { width: 100%; overflow: visible; }
+  .ecg-path {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: drawECG 2.5s ease 1.5s forwards;
+  }
+  @keyframes drawECG {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* Pulse dot */
+  .pulse-dot {
+    width: 10px; height: 10px;
+    background: var(--rose);
+    border-radius: 50%;
+    margin: 0 auto;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(2); opacity: 0.3; }
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 4vw, 28px);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.2s forwards;
+    margin-top: 20px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    animation: fadeIn 1s ease 2.5s forwards;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .scroll-hint span {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--rose), transparent);
+    animation: scrollPulse 1.5s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  /* ── SORRY SECTION ── */
+  .sorry-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+  }
+
+  .sorry-inner {
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .sorry-word {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(80px, 20vw, 180px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--rose);
+    line-height: 1;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+    letter-spacing: -4px;
+  }
+  .sorry-word.visible { opacity: 1; transform: scale(1); }
+
+  .sorry-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 3vw, 24px);
+    font-weight: 300;
+    line-height: 1.9;
+    color: #5a4a4a;
+    margin-top: 40px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s;
+  }
+  .sorry-text.visible { opacity: 1; transform: translateY(0); }
+  .sorry-text strong {
+    font-weight: 600;
+    color: var(--rose);
+    font-style: italic;
+  }
+
+  /* ── PETALS ── */
+  .petal-section {
+    padding: 80px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .petal-row {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .petal-card {
+    flex: 1;
+    min-width: 220px;
+    max-width: 260px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .petal-card.visible { opacity: 1; transform: translateY(0); }
+  .petal-card:nth-child(2) { transition-delay: 0.15s; }
+  .petal-card:nth-child(3) { transition-delay: 0.3s; }
+
+  .petal-icon {
+    width: 70px; height: 70px;
+    margin: 0 auto 20px;
+    position: relative;
+  }
+  .petal-icon svg { width: 100%; height: 100%; }
+
+  .petal-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .petal-card p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  /* ── LETTER SECTION ── */
+  .letter-section {
+    padding: 80px 24px 120px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .letter {
+    max-width: 620px;
+    width: 100%;
+    background: #fff;
+    border-radius: 2px;
+    padding: 60px 56px;
+    position: relative;
+    box-shadow: 0 2px 60px rgba(192,57,43,0.06);
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .letter.visible { opacity: 1; transform: translateY(0); }
+
+  /* Paper lines */
+  .letter::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 60px; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 31px,
+      #f8efef 31px,
+      #f8efef 32px
+    );
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* Red margin line */
+  .letter::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 56px;
+    width: 1px;
+    background: rgba(192,57,43,0.2);
+  }
+
+  .letter-date {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+    font-style: italic;
+  }
+
+  .letter-salutation {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+  }
+  .letter-salutation em { color: var(--rose); font-style: italic; }
+
+  .letter-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 300;
+    line-height: 2;
+    color: #3a2e2e;
+    position: relative;
+    z-index: 1;
+  }
+  .letter-body p { margin-bottom: 28px; }
+  .letter-body p:last-child { margin-bottom: 0; }
+  .letter-body strong { font-weight: 600; color: var(--rose); }
+
+  .letter-sign {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--rose);
+    margin-top: 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Wax seal */
+  .wax-seal {
+    position: absolute;
+    bottom: -28px;
+    right: 40px;
+    width: 56px; height: 56px;
+    animation: sealRotate 8s linear infinite;
+  }
+  @keyframes sealRotate {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+
+  /* ── FINAL SECTION ── */
+  .final-section {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    text-align: center;
+    background: linear-gradient(to bottom, var(--cream), var(--rose-faint));
+  }
+
+  .big-heart {
+    width: 120px; height: 120px;
+    margin: 0 auto 40px;
+    animation: bigPulse 1.4s ease-in-out infinite;
+  }
+  @keyframes bigPulse {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.18); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.1); }
+    60% { transform: scale(1); }
+  }
+
+  .final-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: 300;
+    line-height: 1.3;
+    color: var(--ink);
+    max-width: 560px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .final-text.visible { opacity: 1; transform: translateY(0); }
+  .final-text em { font-style: italic; color: var(--rose); }
+
+  .final-caption {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 32px;
+    opacity: 0;
+    transition: opacity 1s ease 0.4s;
+  }
+  .final-caption.visible { opacity: 1; }
+
+  /* Falling petals */
+  .petal-fall {
+    position: fixed;
+    top: -30px;
+    pointer-events: none;
+    z-index: 0;
+    font-size: 16px;
+    animation: petalFall linear infinite;
+    opacity: 0;
+  }
+  @keyframes petalFall {
+    0% { transform: translateY(-30px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 400px;
+    margin: 0 auto 60px;
+    padding: 0 24px;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .divider.visible { opacity: 1; }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--rose-light));
+  }
+  .divider::after { background: linear-gradient(to left, transparent, var(--rose-light)); }
+  .divider-heart { color: var(--rose); font-size: 14px; }
+
+  @media (max-width: 580px) {
+    .letter { padding: 40px 28px 40px 36px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<canvas id="particles"></canvas>
+
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">a message from the heart</p>
+    <h1 class="hero-name">
+      Dear
+      <em>Kanishika</em>
+    </h1>
+
+    <!-- Minimal ECG -->
+    <div class="ecg-wrap">
+      <svg viewBox="0 0 260 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="ecg-path"
+          d="M0 25 L60 25 L72 25 L78 8 L84 42 L90 4 L96 46 L102 25 L120 25 L260 25"
+          stroke="#c0392b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div style="display:flex; justify-content:center; margin-top:12px;">
+        <div class="pulse-dot"></div>
+      </div>
+    </div>
+
+    <p class="hero-subtitle">Some distances are never about miles —<br>they are about misunderstood moments.</p>
+
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <!-- SORRY WORD -->
+  <section class="sorry-section">
+    <div class="sorry-inner">
+      <div class="sorry-word reveal-scale">I'm sorry.</div>
+      <p class="sorry-text reveal">
+        There are words we leave unsaid, moments we let slip, and silences that grow
+        into walls we never meant to build. <strong>I never meant to lose you</strong>
+        in the in-between of it all — in the noise of a misunderstanding
+        that should have been just a conversation.
+      </p>
+    </div>
+  </section>
+
+  <!-- PETAL CARDS -->
+  <div class="divider reveal"><span class="divider-heart">♡</span></div>
+
+  <section class="petal-section">
+    <div class="petal-row">
+
+      <div class="petal-card reveal-up">
+        <div class="petal-icon">
+          <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="35" cy="35" r="34" stroke="#f0dede" stroke-width="1"/>
+            <text x="35" y="42" text-anchor="middle" font-size="26">🕊️</text>
+          </svg>
+        </div>
+        <h3>Peace</h3>
+        <p>I don't want distance between us. I want the easy comfort we once had — the kind that needed no explanation.</p>
+      </div>
+
+      <div class="petal-card reveal-up">
+        <div class="petal-icon">
+          <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="35" cy="35" r="34" stroke="#f0dede" stroke-width="1"/>
+            <text x="35" y="42" text-anchor="middle" font-size="26">🌸</text>
+          </svg>
+        </div>
+        <h3>Forgiveness</h3>
+        <p>I know I may have hurt you without realising it. That thought alone stays with me. You deserved better from me.</p>
+      </div>
+
+      <div class="petal-card reveal-up">
+        <div class="petal-icon">
+          <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="35" cy="35" r="34" stroke="#f0dede" stroke-width="1"/>
+            <text x="35" y="42" text-anchor="middle" font-size="26">🌿</text>
+          </svg>
+        </div>
+        <h3>A Fresh Start</h3>
+        <p>Not forgetting — just choosing each other again. Because some friendships are worth every effort to keep.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LETTER -->
+  <div class="divider reveal"><span class="divider-heart">♡</span></div>
+
+  <section class="letter-section">
+    <div class="letter reveal">
+      <p class="letter-date">A letter written with care</p>
+
+      <p class="letter-salutation">Dear <em>Kanishika</em>,</p>
+
+      <div class="letter-body">
+        <p>
+          I have thought about this more times than I can count. About how two people
+          who meant so much to each other could end up on opposite sides of a silence
+          neither of us chose.
+        </p>
+        <p>
+          Whatever happened between us — whatever words were said, or left unsaid —
+          <strong>I am truly sorry.</strong> Not the kind of sorry that fills a gap,
+          but the kind that comes from genuinely wishing things had gone differently.
+        </p>
+        <p>
+          You have always been someone who carries warmth naturally — the kind of person
+          a room feels lighter around. I miss that. I miss <em>you</em>.
+          The real you. My friend.
+        </p>
+        <p>
+          I am not asking you to forget. I am just asking for a chance to remind you
+          that <strong>you still matter deeply</strong> — and that some friendships
+          deserve to be kept, even when it takes courage to reach back for them.
+        </p>
+        <p>
+          With all the sincerity I have —
+        </p>
+      </div>
+
+      <p class="letter-sign">always yours, a friend ♡</p>
+
+      <!-- Wax seal SVG -->
+      <svg class="wax-seal" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="28" cy="28" r="27" fill="#c0392b" opacity="0.9"/>
+        <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        <text x="28" y="33" text-anchor="middle" font-size="18" fill="white" opacity="0.9">♡</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="final-section">
+    <svg class="big-heart" viewBox="0 0 120 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M60 96 C60 96 6 62 6 30 C6 16 17 5 30 5 C42 5 52 11 60 22 C68 11 78 5 90 5 C103 5 114 16 114 30 C114 62 60 96 60 96Z"
+        fill="#c0392b" opacity="0.15"/>
+      <path d="M60 90 C60 90 10 58 10 30 C10 18 19 8 30 8 C41 8 51 14 60 24 C69 14 79 8 90 8 C101 8 110 18 110 30 C110 58 60 90 60 90Z"
+        fill="#c0392b" opacity="0.9"/>
+    </svg>
+
+    <p class="final-text reveal">
+      Some people are written into your story<br>
+      <em>for keeps.</em>
+    </p>
+    <p class="final-caption reveal">Kanishika — you are one of them.</p>
+  </section>
+
+</div>
+
+<script>
+// ── CURSOR ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+// ── PARTICLES ──
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+function Particle() {
+  this.reset = function() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.size = Math.random() * 2 + 0.5;
+    this.vx = (Math.random() - 0.5) * 0.4;
+    this.vy = (Math.random() - 0.5) * 0.4;
+    this.alpha = Math.random() * 0.4 + 0.1;
+    this.color = Math.random() > 0.5 ? '#c0392b' : '#e8a0a0';
+  };
+  this.reset();
+  this.update = function() {
+    this.x += this.vx;
+    this.y += this.vy;
+    if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+  };
+  this.draw = function() {
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  };
+}
+
+for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+function animParticles() {
+  ctx.clearRect(0, 0, W, H);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animParticles);
+}
+animParticles();
+
+// ── FALLING PETALS ──
+const petalEmojis = ['🌸', '🌺', '✿', '❀'];
+function spawnPetal() {
+  const el = document.createElement('div');
+  el.className = 'petal-fall';
+  el.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+  el.style.left = Math.random() * 100 + 'vw';
+  el.style.fontSize = (12 + Math.random() * 10) + 'px';
+  el.style.animationDuration = (7 + Math.random() * 8) + 's';
+  el.style.animationDelay = (Math.random() * 3) + 's';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 18000);
+}
+for (let i = 0; i < 12; i++) spawnPetal();
+setInterval(spawnPetal, 2200);
+
+// ── SCROLL REVEAL ──
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal, .reveal-up, .petal-card, .letter, .final-text, .final-caption, .divider').forEach(el => {
+  io.observe(el);
+});
+
+// Sorry word special animation
+const sorryWord = document.querySelector('.sorry-word');
+const sorryText = document.querySelector('.sorry-text');
+const sorryObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      sorryWord.classList.add('visible');
+      sorryText.classList.add('visible');
+    }
+  });
+}, { threshold: 0.2 });
+sorryObs.observe(document.querySelector('.sorry-section'));
+</script>
+</body>
+</html>
