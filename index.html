@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Kanishika</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #c0392b;
+    --rose-light: #e8a0a0;
+    --rose-pale: #fff0f0;
+    --rose-faint: #fdf6f6;
+    --ink: #1e1a1a;
+    --muted: #9a8888;
+    --cream: #fdf8f4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* Particle canvas */
+  #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+  /* Page wrapper */
+  .page { position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--rose);
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+    margin-bottom: 28px;
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(64px, 14vw, 130px);
+    font-weight: 300;
+    line-height: 0.9;
+    color: var(--ink);
+    opacity: 0;
+    animation: fadeUp 1.2s ease 0.6s forwards;
+    position: relative;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--rose);
+    display: block;
+  }
+
+  /* Pulse dot */
+  .pulse-dot {
+    width: 10px; height: 10px;
+    background: var(--rose);
+    border-radius: 50%;
+    margin: 0 auto;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(2); opacity: 0.3; }
+  }
+
+  /* ── LETTER SECTION ── */
+  .letter-section {
+    padding: 80px 24px 120px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .letter {
+    max-width: 620px;
+    width: 100%;
+    background: #fff;
+    border-radius: 2px;
+    padding: 60px 56px;
+    position: relative;
+    box-shadow: 0 2px 60px rgba(192,57,43,0.06);
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .letter.visible { opacity: 1; transform: translateY(0); }
+
+  /* Paper lines */
+  .letter::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 60px; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 31px,
+      #f8efef 31px,
+      #f8efef 32px
+    );
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* Red margin line */
+  .letter::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 56px;
+    width: 1px;
+    background: rgba(192,57,43,0.2);
+  }
+
+  .letter-date {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+    font-style: italic;
+  }
+
+  .letter-salutation {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+  }
+  .letter-salutation em { color: var(--rose); font-style: italic; }
+
+  .letter-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #3a2e2e;
+    position: relative;
+    z-index: 1;
+    letter-spacing: 0.01em;
+  }
+  .letter-body p { margin-bottom: 24px; }
+  .letter-body p:last-child { margin-bottom: 0; }
+  .letter-body strong { font-weight: 600; color: var(--rose); }
+
+  .letter-sign {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--rose);
+    margin-top: 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Wax seal */
+  .wax-seal {
+    position: absolute;
+    bottom: -24px;
+    right: 32px;
+    width: 48px; height: 48px;
+    animation: sealRotate 8s linear infinite;
+  }
+  @keyframes sealRotate {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+
+  /* ── FINAL SECTION ── */
+  .final-section {
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    background: linear-gradient(to bottom, var(--cream), var(--rose-faint));
+  }
+
+  .big-heart {
+    width: 100px; height: 100px;
+    margin: 0 auto 32px;
+    animation: bigPulse 1.4s ease-in-out infinite;
+  }
+  @keyframes bigPulse {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.15); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.08); }
+    60% { transform: scale(1); }
+  }
+
+  .final-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px, 6vw, 40px);
+    font-weight: 300;
+    line-height: 1.4;
+    color: var(--ink);
+    max-width: 90%;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .final-text.visible { opacity: 1; transform: translateY(0); }
+  .final-text em { font-style: italic; color: var(--rose); }
+
+  .final-caption {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 24px;
+    opacity: 0;
+    transition: opacity 0.8s ease 0.3s;
+  }
+  .final-caption.visible { opacity: 1; }
+
+  /* Falling petals */
+  .petal-fall {
+    position: fixed;
+    top: -30px;
+    pointer-events: none;
+    z-index: 0;
+    font-size: 14px;
+    animation: petalFall linear infinite;
+    opacity: 0;
+  }
+  @keyframes petalFall {
+    0% { transform: translateY(-30px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 80%;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .divider.visible { opacity: 1; }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--rose-light));
+  }
+  .divider::after { background: linear-gradient(to left, transparent, var(--rose-light)); }
+  .divider-heart { color: var(--rose); font-size: 12px; }
+
+  /* ── BUTTONS ── */
+  .button-section {
+    padding: 20px 24px 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-height: 250px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+
+  .btn {
+    padding: 12px 28px;
+    border-radius: 25px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+    z-index: 10;
+  }
+
+  .btn-accept {
+    background: var(--rose);
+    color: white;
+    box-shadow: 0 4px 15px rgba(192,57,43,0.2);
+  }
+  .btn-accept:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(192,57,43,0.3);
+  }
+
+  .btn-reject {
+    background: white;
+    color: var(--muted);
+    border: 1px solid var(--rose-light);
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    white-space: nowrap;
+  }
+
+  .response-message {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-style: italic;
+    color: var(--rose);
+    text-align: center;
+    margin-top: 20px;
+    display: none;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  /* Mobile specific overrides */
+  @media (max-width: 600px) {
+    .hero { padding: 40px 20px; }
+    .hero-name { font-size: 72px; }
+    .hero-subtitle { font-size: 20px; padding: 0 10px; }
+    
+    .letter { 
+      padding: 40px 24px 40px 32px;
+      margin: 0 16px;
+      box-shadow: 0 4px 30px rgba(192,57,43,0.04);
+    }
+    .letter::before { left: 32px; background: repeating-linear-gradient(to bottom, transparent, transparent 31px, #fdf4f4 31px, #fdf4f4 32px); }
+    .letter::after { left: 32px; }
+    .letter-salutation { font-size: 22px; margin-bottom: 20px; }
+    .letter-body { font-size: 18px; line-height: 1.7; }
+    .letter-body p { margin-bottom: 20px; }
+    .letter-sign { font-size: 18px; margin-top: 24px; }
+    
+    .final-text { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">a message from the heart</p>
+    <h1 class="hero-name">
+      Dear
+      <em>Kanishika</em>
+    </h1>
+
+    <div style="display:flex; justify-content:center; margin-top:40px;">
+      <div class="pulse-dot"></div>
+    </div>
+  </section>
+
+  <!-- LETTER -->
+  <div class="divider reveal"><span class="divider-heart">♡</span></div>
+
+  <section class="letter-section">
+    <div class="letter reveal">
+      <p class="letter-date">A letter written with care</p>
+
+      <p class="letter-salutation">Dear <em>Kanishika</em>,</p>
+
+      <div class="letter-body">
+        <p>
+          Hey, it's been a really long time. I just wanted to say sorry for how things went between us. Looking back I wasn't really mature enough and I think I made things weird, sorry for that.
+        </p>
+        <p>
+          You meant a lot during school days, the homework sharing and everything, genuinely grateful for that. And sorry for all the annoying texts back then, I was too much.
+        </p>
+        <p>
+          Anyway no expectations or anything just wanted to tell this. Hope you're doing good.
+        </p>
+      </div>
+
+      <p class="letter-sign">sincerely, a friend ♡</p>
+
+      <!-- Wax seal SVG -->
+      <svg class="wax-seal" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="28" cy="28" r="27" fill="#c0392b" opacity="0.9"/>
+        <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        <text x="28" y="33" text-anchor="middle" font-size="18" fill="white" opacity="0.9">♡</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ACTION BUTTONS -->
+  <section class="button-section">
+    <div class="btn-container">
+      <button class="btn btn-accept" id="acceptBtn">Accept apologies</button>
+      <button class="btn btn-reject" id="rejectBtn">Reject apologies</button>
+    </div>
+    <div class="response-message" id="responseMessage">Thank you ♡</div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="final-section">
+    <svg class="big-heart" viewBox="0 0 120 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M60 96 C60 96 6 62 6 30 C6 16 17 5 30 5 C42 5 52 11 60 22 C68 11 78 5 90 5 C103 5 114 16 114 30 C114 62 60 96 60 96Z"
+        fill="#c0392b" opacity="0.15"/>
+      <path d="M60 90 C60 90 10 58 10 30 C10 18 19 8 30 8 C41 8 51 14 60 24 C69 14 79 8 90 8 C101 8 110 18 110 30 C110 58 60 90 60 90Z"
+        fill="#c0392b" opacity="0.9"/>
+    </svg>
+
+    <p class="final-text reveal">
+      Some people are written into your story<br>
+      <em>for keeps.</em>
+    </p>
+    <p class="final-caption reveal">Kanishika — you are one of them.</p>
+  </section>
+
+</div>
+
+<script>
+// ── FALLING PETALS ──
+const petalEmojis = ['🌸', '🌺', '✿', '❀'];
+function spawnPetal() {
+  const el = document.createElement('div');
+  el.className = 'petal-fall';
+  el.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+  el.style.left = Math.random() * 100 + 'vw';
+  el.style.fontSize = (12 + Math.random() * 10) + 'px';
+  el.style.animationDuration = (7 + Math.random() * 8) + 's';
+  el.style.animationDelay = (Math.random() * 3) + 's';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 18000);
+}
+for (let i = 0; i < 12; i++) spawnPetal();
+setInterval(spawnPetal, 2200);
+
+// ── SCROLL REVEAL ──
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal, .reveal-up, .letter, .final-text, .final-caption, .divider').forEach(el => {
+  io.observe(el);
+});
+
+// ── BUTTON LOGIC ──
+const acceptBtn = document.getElementById('acceptBtn');
+const rejectBtn = document.getElementById('rejectBtn');
+const responseMsg = document.getElementById('responseMessage');
+
+acceptBtn.addEventListener('click', () => {
+  responseMsg.style.display = 'block';
+  // Hide buttons after acceptance if you want
+  document.querySelector('.btn-container').style.display = 'none';
+});
+
+const messages = [
+  "Please? 🥺",
+  "Are you sure? 💔",
+  "Give me a chance? ✨",
+  "Think again... 🙏",
+  "Don't be mean! 🎈",
+  "Pretty please? 🌸"
+];
+let messageIndex = 0;
+
+function moveButton() {
+  const container = document.querySelector('.button-section');
+  const containerRect = container.getBoundingClientRect();
+  const btnRect = rejectBtn.getBoundingClientRect();
+
+  // Padding to keep the button inside the container
+  const padding = 20;
+
+  // Calculate safe bounds within the container
+  const maxX = containerRect.width - btnRect.width - (padding * 2);
+  const maxY = containerRect.height - btnRect.height - (padding * 2);
+
+  // Random coordinates within bounds
+  let randomX = Math.floor(Math.random() * maxX) + padding;
+  let randomY = Math.floor(Math.random() * maxY) + padding;
+
+  rejectBtn.style.position = 'absolute';
+  rejectBtn.style.left = randomX + 'px';
+  rejectBtn.style.top = randomY + 'px';
+  rejectBtn.style.margin = '0'; // Remove default flex margins
+  rejectBtn.style.zIndex = '100';
+
+  // Change text
+  rejectBtn.textContent = messages[messageIndex];
+  messageIndex = (messageIndex + 1) % messages.length;
+}
+
+rejectBtn.addEventListener('mouseover', moveButton);
+rejectBtn.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  moveButton();
+});
+</script>
+</body>
+</html>
