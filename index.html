@@ -27,9 +27,6 @@
     overflow-x: hidden;
   }
 
-  /* Particle canvas */
-  #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-
   /* Page wrapper */
   .page { position: relative; z-index: 1; }
 
@@ -131,16 +128,6 @@
     left: 56px;
     width: 1px;
     background: rgba(192,57,43,0.2);
-  }
-
-  .letter-date {
-    font-size: 12px;
-    color: var(--muted);
-    text-align: right;
-    margin-bottom: 32px;
-    position: relative;
-    z-index: 1;
-    font-style: italic;
   }
 
   .letter-salutation {
@@ -264,9 +251,6 @@
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  @keyframes fadeIn {
-    from { opacity: 0; } to { opacity: 1; }
-  }
 
   /* Divider */
   .divider {
@@ -330,10 +314,6 @@
     color: white;
     box-shadow: 0 4px 15px rgba(192,57,43,0.2);
   }
-  .btn-accept:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(192,57,43,0.3);
-  }
 
   .btn-reject {
     background: white;
@@ -352,27 +332,57 @@
     text-align: center;
     margin-top: 20px;
     display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
     animation: fadeUp 0.8s ease forwards;
   }
 
-  /* Mobile specific overrides */
+  /* ── CELEBRATION ANIMATION ── */
+  .celebration-wrap {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    margin-top: 20px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .cake-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    z-index: 5;
+    animation: cakeBounce 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  @keyframes cakeBounce {
+    0% { transform: scale(0) translateY(50px); }
+    100% { transform: scale(1) translateY(0); }
+  }
+
+  .confetti-piece {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #ffd300;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    z-index: 4;
+  }
+
+  @keyframes confettiBurst {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) rotate(var(--tr)) scale(1); opacity: 0; }
+  }
+
   @media (max-width: 600px) {
-    .hero { padding: 40px 20px; }
     .hero-name { font-size: 72px; }
-    .hero-subtitle { font-size: 20px; padding: 0 10px; }
-    
-    .letter { 
-      padding: 40px 24px 40px 32px;
-      margin: 0 16px;
-      box-shadow: 0 4px 30px rgba(192,57,43,0.04);
-    }
-    .letter::before { left: 32px; background: repeating-linear-gradient(to bottom, transparent, transparent 31px, #fdf4f4 31px, #fdf4f4 32px); }
-    .letter::after { left: 32px; }
-    .letter-salutation { font-size: 22px; margin-bottom: 20px; }
+    .letter { padding: 40px 24px 40px 32px; margin: 0 16px; }
     .letter-body { font-size: 18px; line-height: 1.7; }
-    .letter-body p { margin-bottom: 20px; }
-    .letter-sign { font-size: 18px; margin-top: 24px; }
-    
     .final-text { font-size: 28px; }
   }
 </style>
@@ -380,44 +390,25 @@
 <body>
 
 <div class="page">
-
-  <!-- HERO -->
   <section class="hero">
     <p class="hero-eyebrow">a message from the heart</p>
-    <h1 class="hero-name">
-      Dear
-      <em>Kanishika</em>
-    </h1>
-
+    <h1 class="hero-name">Dear <em>Kanishika</em></h1>
     <div style="display:flex; justify-content:center; margin-top:40px;">
       <div class="pulse-dot"></div>
     </div>
   </section>
 
-  <!-- LETTER -->
   <div class="divider reveal"><span class="divider-heart">♡</span></div>
 
   <section class="letter-section">
     <div class="letter reveal">
-      <p class="letter-date">A letter written with care</p>
-
       <p class="letter-salutation">Dear <em>Kanishika</em>,</p>
-
       <div class="letter-body">
-        <p>
-          Hey, it's been a really long time. I just wanted to say sorry for how things went between us. Looking back I wasn't really mature enough and I think I made things weird, sorry for that.
-        </p>
-        <p>
-          You meant a lot during school days, the homework sharing and everything, genuinely grateful for that. And sorry for all the annoying texts back then, I was too much.
-        </p>
-        <p>
-          Anyway no expectations or anything just wanted to tell this. Hope you're doing good.
-        </p>
+        <p>Hey, it's been a really long time. I just wanted to say sorry for how things went between us. Looking back I wasn't really mature enough and I think I made things weird, sorry for that.</p>
+        <p>You meant a lot during school days, the homework sharing and everything, genuinely grateful for that. And sorry for all the annoying texts back then, I was too much.</p>
+        <p>Anyway no expectations or anything just wanted to tell this. Hope you're doing good.</p>
       </div>
-
-      <p class="letter-sign">sincerely,Harikrishna ♡</p>
-
-      <!-- Wax seal SVG -->
+      <p class="letter-sign">sincerely, Harikrishna ♡</p>
       <svg class="wax-seal" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="28" cy="28" r="27" fill="#c0392b" opacity="0.9"/>
         <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
@@ -426,36 +417,31 @@
     </div>
   </section>
 
-  <!-- ACTION BUTTONS -->
   <section class="button-section">
     <div class="btn-container">
       <button class="btn btn-accept" id="acceptBtn">Accept apologies</button>
       <button class="btn btn-reject" id="rejectBtn">Reject apologies</button>
     </div>
-    <div class="response-message" id="responseMessage">♡ Thank you ♡</div>
+    <div class="response-message" id="responseMessage">
+      ♡ Thank you ♡
+      <div class="celebration-wrap" id="celebrationWrap">
+        <div class="cake-icon">༼つ ◕_◕ ༽つ🎂</div>
+      </div>
+    </div>
   </section>
 
-  <!-- FINAL -->
   <section class="final-section">
     <svg class="big-heart" viewBox="0 0 120 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M60 96 C60 96 6 62 6 30 C6 16 17 5 30 5 C42 5 52 11 60 22 C68 11 78 5 90 5 C103 5 114 16 114 30 C114 62 60 96 60 96Z"
-        fill="#c0392b" opacity="0.15"/>
-      <path d="M60 90 C60 90 10 58 10 30 C10 18 19 8 30 8 C41 8 51 14 60 24 C69 14 79 8 90 8 C101 8 110 18 110 30 C110 58 60 90 60 90Z"
-        fill="#c0392b" opacity="0.9"/>
+      <path d="M60 96 C60 96 6 62 6 30 C6 16 17 5 30 5 C42 5 52 11 60 22 C68 11 78 5 90 5 C103 5 114 16 114 30 C114 62 60 96 60 96Z" fill="#c0392b" opacity="0.15"/>
+      <path d="M60 90 C60 90 10 58 10 30 C10 18 19 8 30 8 C41 8 51 14 60 24 C69 14 79 8 90 8 C101 8 110 18 110 30 C110 58 60 90 60 90Z" fill="#c0392b" opacity="0.9"/>
     </svg>
-
-    <p class="final-text reveal">
-      Some people are written into your story<br>
-      <em>for keeps.</em>
-    </p>
+    <p class="final-text reveal">Some people are written into your story<br><em>for keeps.</em></p>
     <p class="final-caption reveal">Kanishika — you are one of them.</p>
   </section>
-
 </div>
 
 <script>
-// ── FALLING PETALS ──
-const petalEmojis = ['🌸', '🌺', '✿', '❀'];
+const petalEmojis = ['🌸', '🌺', '✿', '❀','❁','🪻','🏵️'];
 function spawnPetal() {
   const el = document.createElement('div');
   el.className = 'petal-fall';
@@ -463,79 +449,65 @@ function spawnPetal() {
   el.style.left = Math.random() * 100 + 'vw';
   el.style.fontSize = (12 + Math.random() * 10) + 'px';
   el.style.animationDuration = (7 + Math.random() * 8) + 's';
-  el.style.animationDelay = (Math.random() * 3) + 's';
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 18000);
 }
-for (let i = 0; i < 12; i++) spawnPetal();
 setInterval(spawnPetal, 2200);
 
-// ── SCROLL REVEAL ──
 const io = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
 }, { threshold: 0.15 });
+document.querySelectorAll('.reveal, .reveal-up, .letter, .final-text, .final-caption, .divider').forEach(el => io.observe(el));
 
-document.querySelectorAll('.reveal, .reveal-up, .letter, .final-text, .final-caption, .divider').forEach(el => {
-  io.observe(el);
-});
-
-// ── BUTTON LOGIC ──
 const acceptBtn = document.getElementById('acceptBtn');
 const rejectBtn = document.getElementById('rejectBtn');
 const responseMsg = document.getElementById('responseMessage');
+const celebrationWrap = document.getElementById('celebrationWrap');
+
+function createConfetti() {
+  const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500'];
+  for (let i = 0; i < 50; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti-piece';
+    const tx = (Math.random() - 0.5) * 400;
+    const ty = (Math.random() - 0.5) * 400 - 100;
+    const tr = Math.random() * 360;
+    confetti.style.setProperty('--tx', `${tx}px`);
+    confetti.style.setProperty('--ty', `${ty}px`);
+    confetti.style.setProperty('--tr', `${tr}deg`);
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.animation = `confettiBurst ${1 + Math.random()}s ease-out forwards`;
+    celebrationWrap.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 2000);
+  }
+}
 
 acceptBtn.addEventListener('click', () => {
-  responseMsg.style.display = 'block';
-  // Hide buttons after acceptance if you want
+  responseMsg.style.display = 'flex';
+  celebrationWrap.style.display = 'flex';
+  createConfetti();
+  setTimeout(createConfetti, 500);
   document.querySelector('.btn-container').style.display = 'none';
 });
 
-const messages = [
-  "Please? 🥺",
-  "Are you sure? 💔",
-  "Give me a chance? ✨",
-  "Think again... 🙏",
-  "Don't be mean! 🎈",
-  "Pretty please? 🌸"
-];
+const messages = ["Please? 🥺", "Are you sure? 💔", "Give me a chance? ✨", "Think again... 🙏", "Don't be mean! 🎈", "please? 🌸"];
 let messageIndex = 0;
 
 function moveButton() {
   const container = document.querySelector('.button-section');
   const containerRect = container.getBoundingClientRect();
   const btnRect = rejectBtn.getBoundingClientRect();
-
-  // Padding to keep the button inside the container
-  const padding = 20;
-
-  // Calculate safe bounds within the container
-  const maxX = containerRect.width - btnRect.width - (padding * 2);
-  const maxY = containerRect.height - btnRect.height - (padding * 2);
-
-  // Random coordinates within bounds
-  let randomX = Math.floor(Math.random() * maxX) + padding;
-  let randomY = Math.floor(Math.random() * maxY) + padding;
-
+  const maxX = containerRect.width - btnRect.width - 40;
+  const maxY = containerRect.height - btnRect.height - 40;
   rejectBtn.style.position = 'absolute';
-  rejectBtn.style.left = randomX + 'px';
-  rejectBtn.style.top = randomY + 'px';
-  rejectBtn.style.margin = '0'; // Remove default flex margins
-  rejectBtn.style.zIndex = '100';
-
-  // Change text
+  rejectBtn.style.left = (Math.floor(Math.random() * maxX) + 20) + 'px';
+  rejectBtn.style.top = (Math.floor(Math.random() * maxY) + 20) + 'px';
+  rejectBtn.style.margin = '0';
   rejectBtn.textContent = messages[messageIndex];
   messageIndex = (messageIndex + 1) % messages.length;
 }
-
 rejectBtn.addEventListener('mouseover', moveButton);
-rejectBtn.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  moveButton();
-});
+rejectBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
 </script>
 </body>
 </html>
